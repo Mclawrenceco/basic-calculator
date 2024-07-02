@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Calculator</title>
-		<link
-			href="https://fonts.googleapis.com/css?family=Open+Sans"
-			rel="stylesheet"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css?family=Oxygen+Mono"
-			rel="stylesheet"
-		/>
-		<link rel="stylesheet" href="css/styles.css" />
-		<link rel="icon" type="image/png" href="brain/img/fav.png" />
-	</head>
-	<body>
-		<div id="calculator">
-			<div id="result">0</div>
-			<button onclick="cls();">AC</button>
-			<button onclick="num(this.innerHTML);">7</button>
-			<button onclick="num(this.innerHTML);">8</button>
-			<button onclick="num(this.innerHTML);">9</button>
-			<button onclick="calc(this.innerHTML);">/</button>
-			<button onclick="num(this.innerHTML);">4</button>
-			<button onclick="num(this.innerHTML);">5</button>
-			<button onclick="num(this.innerHTML);">6</button>
-			<button onclick="calc(this.innerHTML);">*</button>
-			<button onclick="num(this.innerHTML);">1</button>
-			<button onclick="num(this.innerHTML);">2</button>
-			<button onclick="num(this.innerHTML);">3</button>
-			<button onclick="calc(this.innerHTML);">-</button>
-			<button onclick="num(this.innerHTML);">0</button>
-			<button onclick="num(this.innerHTML);">.</button>
-			<button onclick="total();">=</button>
-			<button onclick="calc(this.innerHTML);">+</button>
-			<div id="smallResult"></div>
-		</div>
-		<script src="js/scripts.js"></script>
-	</body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>iPhone Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oxygen+Mono" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" type="image/png" href="brain/img/fav.png" />
+</head>
+<body>
+    <div id="calculator">
+        <div id="result">0</div>
+        <div class="button-row">
+            <button class="button function" onclick="cls();">AC</button>
+            <button class="button function" onclick="calc('+/-');">+/-</button>
+            <button class="button function" onclick="calc('%');">%</button>
+            <button class="button operator" onclick="calc('/');">÷</button>
+        </div>
+        <div class="button-row">
+            <button class="button number" onclick="num('7');">7</button>
+            <button class="button number" onclick="num('8');">8</button>
+            <button class="button number" onclick="num('9');">9</button>
+            <button class="button operator" onclick="calc('*');">×</button>
+        </div>
+        <div class="button-row">
+            <button class="button number" onclick="num('4');">4</button>
+            <button class="button number" onclick="num('5');">5</button>
+            <button class="button number" onclick="num('6');">6</button>
+            <button class="button operator" onclick="calc('-');">−</button>
+        </div>
+        <div class="button-row">
+            <button class="button number" onclick="num('1');">1</button>
+            <button class="button number" onclick="num('2');">2</button>
+            <button class="button number" onclick="num('3');">3</button>
+            <button class="button operator" onclick="calc('+');">+</button>
+        </div>
+        <div class="button-row">
+            <button class="button number zero" onclick="num('0');">0</button>
+            <button class="button number" onclick="num('.');">.</button>
+            <button class="button operator" onclick="total();">=</button>
+        </div>
+    </div>
+    <script src="js/scripts.js"></script>
+</body>
 </html>
