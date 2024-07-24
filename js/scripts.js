@@ -1,107 +1,112 @@
-var result = document.getElementById('result');
-var val_1 = false;
-var val_2 = false;
-var oper = '+';
-var operPressed = false;
-var tot = 0;
-var cal_done = false;
-
-function num(val) {
-    val = val.toString();
-
-    if (cal_done) cls();
-
-    if (!operPressed) {
-        if (!val_1) val_1 = '0';
-        val_1 = lengthFix(val_1 + val);
-        result.innerHTML = val_1;
-    } else {
-        if (!val_2) val_2 = '0';
-        val_2 = lengthFix(val_2 + val);
-        result.innerHTML = val_2;
-    }
+function add (num1, num2) {
+    let result;
+    result = num1 + num2;
+    return result;
 }
 
-function calc(val) {
-    if (val_1 && val_2) {
-        total();
-        oper = val;
-    } else if (!val_1) {
-        return;
-    } else if (!val_2 && operPressed) {
-        oper = val;
-    } else {
-        oper = val;
-        operPressed = true;
-    }
-    result.innerHTML = val;
+function substract (num1, num2) {
+    let result;
+    result = num1 - num2;
+    return result;
 }
 
-function total() {
-    if (!val_1) return;
-
-    if (!val_2) {
-        tot = magic(val_1, val_1, oper);
-    } else {
-        tot = magic(val_1, val_2, oper);
-    }
-
-    tot = lengthFix(tot.toString());
-    result.innerHTML = tot;
-    val_1 = tot;
-    val_2 = false;
-    operPressed = false;
-    cal_done = true;
+function multiply (num1, num2) {
+    let result;
+    result = num1 * num2;
+    return result;
 }
 
-function magic(a, b, oper) {
-    switch (oper) {
-        case '+':
-            return +a + +b;
-        case '-':
-            return +a - +b;
-        case '/':
-            return +a / +b;
-        case '*':
-            return +a * +b;
+function divide (num1, num2) {
+    let result;
+    if(num2 == 0) {
+        result = "Math Error";
+    } else {
+        result = num1 / num2;
+    }
+    
+    return result;
+}
+
+function operate(operator, num1, num2) {
+    let result;
+    switch(operator) {
+        case "+":
+            result = add(num1, num2);
+            break;
+        case "-":
+            result = substract(num1, num2);
+            break;
+        case "*":
+            result = multiply(num1, num2);
+            break;
+        case "/":
+            result = divide(num1, num2);
+            break;
         default:
-            return 0;
+            result = "That's not a valid operation"
     }
+    return result;
 }
 
-function cls() {
-    result.innerHTML = '0';
-    val_1 = false;
-    val_2 = false;
-    oper = '+';
-    tot = 0;
-    cal_done = false;
-    operPressed = false;
+const buttons = document.querySelectorAll('button');
+const displayInput = document.querySelector('.display-input');
+const displayOutput = document.querySelector('.display-output');
+
+let operator = "";
+let input = ""
+let numbers = [];
+let answer;
+
+
+function populateDisplay(e) {
+    if(e.target.textContent !== "CLEAR" && e.target.textContent !== "DELETE" && e.target.textContent !== "=") {
+        if(!"+-/*".includes(e.target.textContent)) {
+            input += e.target.textContent;
+        } else {
+            input += " " + e.target.textContent + " ";
+            operator = e.target.textContent;
+        }
+    } else if(e.target.textContent === "DELETE") {
+        input = input.slice(0, -1);
+        displayInput.textContent = input;
+
+    } else if("=".includes(e.target.textContent)) {
+        numbers = input.split(" ");
+
+        let firstOperand = parseInt(numbers[0]);
+        let currentOperand = "";
+        let symbol;
+        let answer;
+        
+        for(let i = 1; i < numbers.length; i++) {
+            if("+-/*".includes(numbers[i])) {
+                symbol = numbers[i];
+                
+                currentOperand = numbers[i + 1];
+                if(currentOperand % 1 != 0 || firstOperand % 1 != 0) {
+                    firstOperand = parseFloat(firstOperand);
+                    currentOperand = parseFloat(currentOperand);
+                } else {
+                    firstOperand = parseInt(firstOperand);
+                    currentOperand = parseInt(currentOperand);
+                }
+                answer = operate(symbol, firstOperand, currentOperand);
+            }
+            firstOperand = answer;
+        }
+        displayOutput.textContent = answer;
+
+    } else if(e.target.textContent === "CLEAR") {
+        firstNumber = "";
+        secondNumber = "";
+        input = "";
+        result = 0;
+        displayInput.textContent = "";
+        displayOutput.textContent = result;
+    }   
+
+    displayInput.textContent = input;
+    
 }
 
-function lengthFix(o) {
-    o = o.toString();
-    if (o.length > 12) o = o.substring(0, 12);
-    return o;
-}
-
-document.onkeyup = function(e) {
-    if (e.key === '0') num('0');
-    if (e.key === '1') num('1');
-    if (e.key === '2') num('2');
-    if (e.key === '3') num('3');
-    if (e.key === '4') num('4');
-    if (e.key === '5') num('5');
-    if (e.key === '6') num('6');
-    if (e.key === '7') num('7');
-    if (e.key === '8') num('8');
-    if (e.key === '9') num('9');
-    if (e.key === '.') num('.');
-    if (e.key === '/') calc('/');
-    if (e.key === '*') calc('*');
-    if (e.key === '+') calc('+');
-    if (e.key === '-') calc('-');
-    if (e.key === 'Enter') total();
-    if (e.key === 'Backspace' || e.key === 'Delete') cls();
-    if (e.key === 'Escape') cls();
-};
+buttons.forEach(button => button.addEventListener('click', populateDisplay));
